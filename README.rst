@@ -30,3 +30,21 @@ Quick start
    to configure BD (you'll need the Admin app enabled).
 
 5. Visit http://127.0.0.1:8000/polls/ to take it for a spin.
+
+
+Development
+-----------
+
+While this is intended to be integrated
+with your django project
+as a pluggable app,
+the repo contains a django project
+called `dev_project` (and manage.py etc)
+to faciliate local development.
+
+After initiating and activating a virtualenv,
+then pip installing the `requirements.txt`,
+you should be able to `python manage.py runserver`
+and see your local handywork imediately.
+
+The dev_project is not meant to be used in production.
