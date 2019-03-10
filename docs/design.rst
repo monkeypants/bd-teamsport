@@ -68,11 +68,6 @@ using tickets and kanban boards.
 The artefacts will be spreadsheets
 that live in a place where the team can access them.
 
-TODO:
- * <epic> document preciecly how to configure GitHub
- * <epic> show by example spreadsheet artefacts
- * <epic> build the minimum viable django features required for orchestration
-
 
 MVP +1
 ------
