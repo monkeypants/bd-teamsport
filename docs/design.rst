@@ -1,6 +1,12 @@
 System Design
 =============
 
+The system is a combination of:
+ * GitHub
+ * BD Teamsport
+
+BD Teamsport is a logical concept.
+
 .. graphviz::
 
    digraph d {
@@ -36,22 +42,53 @@ System Design
       sc -> ua;
    }
 
+
+To begin with, it may be a collection of spreadsheets
+in that horrible acursed Microsoft website thing
+that keeps locking me out
+(may the devil damn it's eyes).
+Eventually, it may be entirely consumed by django features.
+
+In between, a team responsible for business development
+in a real software development agency will improve it
+iteratively based on their needs. 
+Pull requests also welcome :)
+
 MVP
 ---
 
-the BD Teamsport has these features:
+
+The BD Teamsport has these features:
  * <BD> register opportunity, request proposal, etc
  * <DA> list tickets that should be raised
  * <DA> update proposal status per: github activity
 
-GitHub is used as-is, and the artefacts are MS Word / Excel stuff in the Sharepoint site.
+GitHub is used as-is,
+using tickets and kanban boards.
+The artefacts will be spreadsheets
+that live in a place where the team can access them.
+
+TODO:
+ * <epic> document preciecly how to configure GitHub
+ * <epic> show by example spreadsheet artefacts
+ * <epic> build the minimum viable django features required for orchestration
+
 
 MVP +1
 ------
 
-in the MVP, we have a peon raising tickets, updating things when tickets change, etc. This should be automated (the peon activity should be orchestrating and communicating with humans, not responding to system events with other system activities)
+In the MVP, we have peon-work
+raising tickets, updating things when tickets change, etc.
+This should be automated
+The focus of administrative activity
+should be shifted "up the stack" 
+towards management
+(orchestrating and communicating with humans,
+not responding to system events
+with other system activities).
+
 
 Beyond MVP
 ----------
 
-replace excel stuff with database stuff, so we can link planned with actuals (etc).
+Replace excel stuff with database stuff, so we can link planned with actuals (etc).
