@@ -7,6 +7,8 @@ Welcome to BD Teamsport's documentation!
 
    overview
    design
+   domain
+   processes
 
 
 Indices and tables

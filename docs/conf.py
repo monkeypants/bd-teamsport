@@ -8,7 +8,8 @@ release = '0.1'
 
 extensions = [
     'sphinx.ext.viewcode',
-    'sphinx.ext.graphviz'
+    'sphinx.ext.graphviz',
+    'sphinxcontrib.plantuml'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
