@@ -2,6 +2,10 @@ from django.db import models
 
 
 class Client(models.Model):
+    """
+    Clients present Opportunities, which become interesting
+    when we decide to make a Proposal.
+    """
     name = models.CharField(max_length=250)
     description = models.TextField()
 
@@ -39,6 +43,24 @@ class Opportunity(models.Model):
 
 
 class Proposal(models.Model):
+    """
+    Initially, Proposals are "submittable thing identies".
+
+    Eventually, we will need a bigger model where
+    a Proposal is comprised of one or more CostComponents,
+    which are the things the client can actually buy.
+    For example, we maye have a “core” Discovery component
+    that is a pre-requisite for various (optional)
+    “things that come after discovery”.
+    There are no hard and fast rules though,
+    the architects may propose whatever
+    combination of components that they think
+    will meet the client’s need.
+    CostComponents are the “buyable” chunks
+    that form the basis of our offer
+    (if more than one,
+    it’s not an “all or nothing” proposal)
+    """
     opportunity = models.ForeignKey(Opportunity, on_delete=models.PROTECT)
     commenced = models.DateTimeField()  # default now()
     submitted = models.DateTimeField(blank=True, null=True)  # default None
