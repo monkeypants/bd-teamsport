@@ -21,28 +21,162 @@ Domain Model
             label="Time Plan";
 	    Phase -> SprintWindow;
 	 }
-	 subgraph cluster_cost_matrix {
-            label="Cost Matrix";
-	    ResourcePage;
-	    Role;
-	    RoleResourcePage [shape=diamond];
-	    ResourcePage -> RoleResourcePage;
-	    Role -> RoleResourcePage;
-	 }
-	 CostComponent -> ResourcePage;
-	 SprintWindow -> ResourcePage
+	 cm [label="Cost Matrix" shape=folder];
+	 CostComponent -> cm;
+	 SprintWindow -> cm;
       }
    }
 
 
-Logical model for better quotes:
 
-* a Proposal is the strong entity (anchor of the model)
-* One proposal has one or more CostComponents. These are the "buyable" chunks that form the basis of our offer (if more than one, it's not an "all or nothing" proposal)
-* Each proposal has a "time plan" model, comprising Phase (Disco, Alpha, Beta, TBAU/Live) and SprintWindow (typically specific fortnights with nominated start and end date).
-* SprintWindows are non-overlapping, and always belong to a Phase.
-* In addition to the time plan model, each proposal also has a cost matrix model. This is the thing we use in "planned vs. actual analysis" at the per-sprint level.
-* The cost matrix model is comprised a SprintComponentResourcePlan (actually, let's call it ResourcePage for short), Role and RoleResourcePage.
-* The ResourcePage links a SprintWindow to a CostComponent. It means "If you include this CostComponent, then any associated work done on it in this sprint window needs to be counted here"
-* The Role is the same as our rate card (Senior FE Dev, etc)
-* The RoleResourcePage is the assertion that we need a certain quantity (e.g. 40 hours) of that Role (e.g. Tech Lead) for that ResourcePage (for that CostComponent in that SprintWindow).
+**Clients** present **Opportunities**,
+which become interesting when
+we decide to make a **Proposal**
+
+A Proposal is comprised of one or more
+**CostComponents**, which are the things
+the client can actually buy.
+For example, we maye have a "core" Discovery component
+that is a pre-requisite for various (optional)
+"things that come after discovery".
+There are no hard and fast rules though,
+the architects may propose whatever
+combination of components
+that they think
+will meet the client's need.
+CostComponents are the "buyable" chunks
+that form the basis of our offer
+(if more than one,
+it's not an "all or nothing" proposal)
+
+The "time plan" is a collection
+of **SprintWindows**
+(non-overlapping time boxes).
+These are organised in **Phases**
+(every sprint window belongs to one phase).
+
+We have standardised phases:
+ 1. Discovery:
+ 2. ALPHA:
+ 3. BETA:
+ 4. LIVE, which may be furthe divided into:
+ 
+    * 4a) Transition to Business As Usual (TBAU); then
+    * 4b) Sustainment
+
+In addition to the time plan model,
+each proposal also has a cost matrix model.
+This is not given to the client specifically,
+but is used to calculate
+the less detailed cost plan
+that the client sees.
+
+The cost martix should also be maintained
+each sprint to perform "planned vs. actual" analysis.
+
+Two cost matrix models are proposed.
+
+The both:
+ * include a **Role** entity
+   (from which the rate card is derived).
+ * have dependancy on SprintWindow,
+   because the costs are modeled
+   at the per-sprint granularity
+ * have a dependency on the CostComponent,
+   because we need to partition costs
+   by component.
+
+This model is probably better.
+It starts by linking
+the types of resource
+that would be requited
+for each CostComponent.
+These links are **ComponentRoles**.
+
+Then, each ComponentRole
+is linked to the SprintWindows
+in which that Role
+would be required to work
+on that component.
+These links are **ResourceUnits**,
+although "ResourceSchedulePlanningAtom"
+might have be a more accurate name.
+
+The ResourceUnits is the level at which
+resource allocation is made, in hours.
+
+.. graphviz::
+
+   digraph d {
+      node [shape=rectangle];
+      edge [arrowhead=crow];
+      CostComponent;
+      SprintWindow;
+      subgraph cluster_cost_matrix {
+         Role;
+	 ComponentRole;
+	 Role -> ComponentRole;
+	 ResourceUnit
+	 ComponentRole -> ResourceUnit
+      }
+      CostComponent -> ComponentRole;
+      SprintWindow -> ResourceUnit;
+   }
+
+Alternatively, the CostComponent
+can be linked to SprintWindow first,
+using a **ResourcePage** model.
+
+.. graphviz::
+
+   digraph d {
+      node [shape=rectangle];
+      edge [arrowhead=crow];
+      label="logical model for work costing";
+
+      CostComponent;
+      SprintWindow;
+      subgraph cluster_cost_matrix {
+         label="Cost Matrix";
+	 ResourcePage;
+	 Role;
+	 RoleResourcePage [shape=diamond];
+	 ResourcePage -> RoleResourcePage;
+	 Role -> RoleResourcePage;
+      }
+      CostComponent -> ResourcePage;
+      SprintWindow -> ResourcePage
+   }
+
+
+The ResourcePage means
+"If you include this CostComponent,
+then any associated work done on it
+in this sprint window
+needs to be counted here"
+
+The **RoleResourcePage** is
+the assertion that we need
+a certain quantity
+(e.g. 40 hours)
+of that Role (e.g. Tech Lead)
+for that ResourcePage
+(for that CostComponent in that SprintWindow).
+
+
+Domain Views
+------------
+
+TODO elaborate on:
+
+ * The RateCard (filtered for relevant roles)
+ * Phase/Sprint Plan(s).
+   Potentially multiple,
+   if some cost components are optional.
+   Dependencies between CostComponents may mean that
+   not all permutations are viable.
+ * Proposal Outline,
+   indicating high-level timeline
+   and cost components.
+ * planned cost matrix,
+   used for planned vs. actuals internal analysis.
