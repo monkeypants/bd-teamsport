@@ -1,4 +1,5 @@
 include LICENCE
 include README.rst
+include COPYRIGHT
 recursive-include bd_teamsport *
 recursive-include docs *
