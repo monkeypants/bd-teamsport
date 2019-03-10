@@ -10,6 +10,9 @@ os.chdir(
             os.path.abspath(__file__),
             os.pardir)))
 
+# TODO: grab version from docs/conf.py or both from some common place
+# maybe do the paparazzi git tag dirty trick in the version name
+
 setup(
     name='bd-teamsport',
     version='0.1',
