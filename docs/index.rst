@@ -6,6 +6,7 @@ Welcome to BD Teamsport's documentation!
    :caption: Contents:
 
    overview
+   design
 
 
 Indices and tables
